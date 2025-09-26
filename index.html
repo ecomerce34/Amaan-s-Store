@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AS AMAAN,s STORE.com</title>
+  <meta name="description" content="Professional responsive e‑commerce template built with HTML & CSS only — 20 product demo." />
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#06b6d4;
+      --accent-2:#7c3aed;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --max:1200px;
+      --gap:1.25rem;
+      --card-pad:1.25rem;
+      --transition:300ms cubic-bezier(.2,.9,.3,1);
+      color-scheme: dark;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:linear-gradient(180deg,var(--bg), #071025 80%); color:#e6eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    a{color:inherit; text-decoration:none}
+
+    /* Container */
+    .wrap{max-width:var(--max); margin:2rem auto; padding:0 1rem}
+
+    /* Header */
+    header{display:flex;align-items:center;gap:1rem;justify-content:space-between}
+    .brand{display:flex;gap:.75rem;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
+    .logo span{font-family:Inter; font-weight:800}
+    .brand h1{font-size:1.125rem;margin:0}
+    .brand p{margin:0;font-size:.8rem;color:var(--muted)}
+
+    /* Nav */
+    nav{display:flex;gap:1rem;align-items:center}
+    .nav-link{padding:.5rem .75rem;border-radius:10px;color:var(--muted);font-size:.95rem}
+    .nav-link:hover{background:var(--glass); color:#fff}
+
+    /* Search + actions */
+    .actions{display:flex;gap:.75rem;align-items:center}
+    .search{position:relative}
+    .search input{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.6rem .9rem;border-radius:999px;color:inherit;min-width:220px;outline:none;transition:var(--transition)}
+    .search input:focus{box-shadow:0 6px 20px rgba(7,10,26,.6);border-color:rgba(255,255,255,0.08)}
+
+    .icon-btn{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);border:1px solid rgba(255,255,255,0.04);padding:.6rem .75rem;border-radius:10px}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:2rem;margin:1.75rem 0}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:1.5rem;border-radius:var(--radius);box-shadow:0 8px 30px rgba(2,6,23,.6)}
+    .hero h2{margin:0 0 .5rem;font-size:1.35rem}
+    .hero p{margin:0;color:var(--muted)}
+    .cta{display:inline-block;margin-top:1rem;padding:.7rem 1rem;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021024;font-weight:700}
+
+    /* Filters & sorts (CSS-only) */
+    .controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+    .chip{padding:.45rem .7rem;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:.9rem;color:var(--muted)}
+    .chip input{display:none}
+    .chip label{cursor:pointer}
+    .chip input:checked + label{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021024}
+
+    /* Grid */
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:1rem}
+    .card{background:var(--card);border-radius:12px;padding:var(--card-pad);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.03);transition:transform var(--transition),box-shadow var(--transition)}
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(2,6,23,.6)}
+    .img{aspect-ratio:1/1;display:block;border-radius:10px;overflow:hidden;background:#021026;margin-bottom:.85rem}
+    .img img{width:100%;height:100%;object-fit:cover;display:block}
+    .title{font-weight:700;margin:0 .0rem .35rem}
+    .meta{color:var(--muted);font-size:.9rem;margin-bottom:.45rem}
+    .price{font-weight:800}
+    .old{color:rgba(255,255,255,0.35);text-decoration:line-through;margin-left:.6rem;font-weight:600;font-size:.9rem}
+
+    .badge{position:absolute;top:12px;left:12px;padding:.35rem .55rem;border-radius:8px;font-weight:700;font-size:.8rem;background:linear-gradient(90deg,#10b981,#06b6d4);color:#021024}
+    .favorite{position:absolute;right:12px;top:12px;background:rgba(0,0,0,0.35);padding:.4rem;border-radius:10px}
+
+    .card .actions-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.65rem}
+    .btn{display:inline-block;padding:.6rem .8rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021024;font-weight:700;border:none}
+
+    /* ratings */
+    .stars{display:inline-block;font-size:.85rem;color:#ffd166}
+
+    /* Modal product detail via :target (no JS) */
+    .modal{position:fixed;inset:0;display:grid;place-items:center;padding:2rem;visibility:hidden;opacity:0;transition:opacity 250ms ease,visibility 250ms}
+    .modal:target{visibility:visible;opacity:1}
+    .modal-inner{width:min(980px,95%);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:18px;padding:1.25rem;display:grid;grid-template-columns:420px 1fr;gap:1rem}
+    .modal-inner .left{border-radius:12px;overflow:hidden}
+    .close{position:absolute;right:26px;top:24px;padding:.5rem;border-radius:10px;background:rgba(0,0,0,0.45)}
+
+    /* Footer */
+    footer{margin-top:2.5rem;padding:1.25rem 0;color:var(--muted);display:flex;justify-content:space-between}
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .hero{grid-template-columns:1fr}
+    }
+    @media (max-width:760px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .search input{min-width:120px}
+      .hero{grid-template-columns:1fr}
+    }
+    @media (max-width:420px){
+      .grid{grid-template-columns:1fr}
+      .brand h1{font-size:1rem}
+      .hero p{font-size:.95rem}
+      .modal-inner{grid-template-columns:1fr}
+    }
+
+    /* small utility */
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>AS</span></div>
+        <div>
+          <h1>AMAAN,s STORE</h1>
+          <p class="muted">Best Products on Amaan,s Store!</p>
+        </div>
+      </div>
+
+      <nav>
+        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="#catalog">Catalog</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <div class="search">
+          <input type="search" placeholder="Search products (UI only)" aria-label="Search" />
+        </div>
+        <div class="icon-btn">Cart</div>
+        <div class="icon-btn">Login</div>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Intro">
+      <article class="hero-card">
+        <h2>Curated products — no fluff, all polish</h2>
+        <p>There are Sale on our Entire Stock Dont Miss The Chance lets grab your Cart!</p>
+        <a class="cta" href="#catalog">Browse Products</a>
+      </article>
+
+      <aside class="hero-card">
+        <h3 style="margin-top:0">Quick Filters</h3>
+        <div class="controls">
+          <div class="chip"><input id="c1" type="checkbox"><label for="c1">New</label></div>
+          <div class="chip"><input id="c2" type="checkbox"><label for="c2">On Sale</label></div>
+          <div class="chip"><input id="c3" type="checkbox"><label for="c3">Top Rated</label></div>
+          <div class="chip"><input id="c4" type="checkbox"><label for="c4">Accessories</label></div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:1rem 0">
+        <h4 style="margin:.2rem 0">Sort</h4>
+        <div class="controls">
+          <div class="chip">Popular</div>
+          <div class="chip">Newest</div>
+          <div class="chip">Price: Low → High</div>
+        </div>
+      </aside>
+    </section>
+
+    <main id="catalog">
+      <h3 style="margin:0 0 .6rem">Featured Products</h3>
+      <p class="muted" style="margin:0 0 1rem"></p>
+
+      <section class="grid" aria-live="polite">
+        <!-- We'll create 20 product cards. Each 'View' links to #p{id} which opens modal via :target -->
+
+        <!-- Product 1 -->
+        <article class="card">
+          <div class="badge">NEW</div>
+          <div class="favorite">♡</div>
+          <a class="img" href="#p1"><img src="2sp.jpg" alt="2sp.jpg"></a>
+          <h4 class="title">Venom Printed T-Shirt</T-Shirt></h4>
+          <div class="meta muted">100% • Cotton</div>
+          <div><span class="price">1499</span><span class="old">1799</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="2sp.jpg">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="card">
+          <div class="img"><a href="#p2"><img src="3sp.jpg" alt="Sleek Watch" /></a></div>
+          <h4 class="title">Spider Printed T-Shirt</h4>
+          <div class="meta muted">100% • Cotton</div>
+          <div><span class="price">1499</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p2">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="card">
+          <div class="badge">SALE</div>
+          <div class="img"><a href="#p3"><img src="4sp.webp" alt="Retro Polaroid" /></a></div>
+          <h4 class="title">White Spider Printed T-Shirt</h4>
+          <div class="meta muted">70% Cotton • 30% Pollyster</div>
+          <div><span class="price">1399</span><span class="old">1699</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p3">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="card">
+          <div class="img"><a href="#p4"><img src="6s.jpg" alt="Compact Drone" /></a></div>
+          <h4 class="title">Spidy Kid T-Shirt</h4>
+          <div class="meta muted">100% • Cotton</div>
+          <div><span class="price">1599</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="6s.jpg">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="card">
+          <div class="img"><a href="#p5"><img src="7s.jpg" alt="Leather Bag" /></a></div>
+          <h4 class="title">Heritage Leather Bag</h4>
+          <div class="meta muted">Bags • Premium</div>
+          <div><span class="price">$219</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p5">View</a>
+            <span class="btn"> <a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="card">
+          <div class="badge">HOT</div>
+          <div class="img"><a href="#p6"><img src="8s.jpg" alt="Gaming Controller" /></a></div>
+          <h4 class="title">Pro Gaming Controller</h4>
+          <div class="meta muted">Gaming • Wired</div>
+          <div><span class="price">$59</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p6">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 7 -->
+        <article class="card">
+          <div class="img"><a href="#p7"><img src="9s.jpg" alt="Minimal Lamp" /></a></div>
+          <h4 class="title">Minimal Desk Lamp</h4>
+          <div class="meta muted">Home • LED</div>
+          <div><span class="price">$39</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p7">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 8 -->
+        <article class="card">
+          <div class="img"><a href="#p8"><img src="10s.jpg" alt="Running Shoes" /></a></div>
+          <h4 class="title">Aero Running Shoes</h4>
+          <div class="meta muted">Footwear • Lightweight</div>
+          <div><span class="price">$129</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p8">View</a>
+            <span class="btn"><a href="">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 9 -->
+        <article class="card">
+          <div class="img"><a href="#p9"><img src="11s.jpg" alt="Coffee Maker" /></a></div>
+          <h4 class="title">Barista Coffee Maker</h4>
+          <div class="meta muted">Kitchen • Espresso</div>
+          <div><span class="price">$179</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p9">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 10 -->
+        <article class="card">
+          <div class="img"><a href="#p10"><img src="12s.jpg" alt="Sunglasses" /></a></div>
+          <h4 class="title">Aviator Sunglasses</h4>
+          <div class="meta muted">Accessories • UV</div>
+          <div><span class="price">$79</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p10">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 11 -->
+        <article class="card">
+          <div class="img"><a href="#p11"><img src="13s.jpg" alt="Wireless Speaker" /></a></div>
+          <h4 class="title">Portable Wireless Speaker</h4>
+          <div class="meta muted">Audio • Bluetooth</div>
+          <div><span class="price">$69</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p11">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 12 -->
+        <article class="card">
+          <div class="img"><a href="#p12"><img src="14s.jpg" alt="Action Camera" /></a></div>
+          <h4 class="title">Action Camera Mini</h4>
+          <div class="meta muted">Cameras • Action</div>
+          <div><span class="price">$139</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p12">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 13 -->
+        <article class="card">
+          <div class="img"><a href="#p13"><img src="15s.jpg" alt="Notebook" /></a></div>
+          <h4 class="title">Classic Notebook</h4>
+          <div class="meta muted">Stationery • Lined</div>
+          <div><span class="price">$15</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p13">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 14 -->
+        <article class="card">
+          <div class="img"><a href="#p14"><img src="16s.jpg" alt="Gaming Laptop" /></a></div>
+          <h4 class="title">Phantom Gaming Laptop</h4>
+          <div class="meta muted">Computers • 16GB RAM</div>
+          <div><span class="price">$1299</span><span class="old">$1499</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p14">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 15 -->
+        <article class="card">
+          <div class="img"><a href="17s.jpg"><img src="17s.jpg" alt="17s.jpg" /></a></div>
+          <h4 class="title">Eco Yoga Mat</h4>
+          <div class="meta muted">Fitness • Non-slip</div>
+          <div><span class="price">$29</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="22s.jpg">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 16 -->
+        <article class="card">
+          <div class="img"><a href="#p17"><img src="18s.jpg" alt="Desk Organizer" /></a></div>
+          <h4 class="title">Modular Desk Organizer</h4>
+          <div class="meta muted">Office • Modular</div>
+          <div><span class="price">$49</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p16">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 17 -->
+        <article class="card">
+          <div class="img"><a href="#p17"><img src="10s.jpg" alt="Designer Chair" /></a></div>
+          <h4 class="title">Ergo Designer Chair</h4>
+          <div class="meta muted">Furniture • Ergonomic</div>
+          <div><span class="price">$389</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="10s.jpg">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 18 -->
+        <article class="card">
+          <div class="img"><a href="#p18"><img src="20s.jpg" alt="Kitchen Knife Set" /></a></div>
+          <h4 class="title">Chef's Knife Set</h4>
+          <div class="meta muted">Kitchen • Stainless</div>
+          <div><span class="price">$129</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p18">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 19 -->
+        <article class="card">
+          <div class="img"><a href="#p19"><img src="4sp.webp" alt="Travel Backpack" /></a></div>
+          <h4 class="title">All‑Terrain Backpack</h4>
+          <div class="meta muted">Travel • 28L</div>
+          <div><span class="price">$89</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p19">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+        <!-- Product 20 -->
+        <article class="card">
+          <div class="img"><a href="#p20"><img src="10s.jpg" alt="Smart Home Hub" /></a></div>
+          <h4 class="title">Smart Home Hub</h4>
+          <div class="meta muted">Home • Connected</div>
+          <div><span class="price">$99</span></div>
+          <div class="actions-row">
+            <a class="btn primary" href="#p20">View</a>
+            <span class="btn"><a href="order.html">BUY NOW</a></span>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <footer>
+      <div>©Amaan,s Store • All Rights Reserved</div>
+      <div class="muted"></div>
+    </footer>
+  </div>
+
+  <!-- PRODUCT MODALS (NO JS) -->
+  <!-- Each modal uses id p1..p20 and can be opened by linking to #pX. Close with link to # (top of page) or any anchor. -->
+
+  <div id="p1" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <div class="left"><img src="2sp.jpg" style="width:100%;height:100%;object-fit:cover" alt="Deluxe Headphones"></div>
+      <div>
+        <a class="close" href="#" aria-label="Close">✕</a>
+        <h2>Deluxe Headphones</h2>
+        <p class="muted">High fidelity wired headphones with plush earcups and balanced sound profile.</p>
+        <p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$119 <span class="old">$149</span></p>
+        <p class="muted">Ships worldwide • 2-year warranty</p>
+        <div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a> <a class="btn" href="#">Wishlist</a></div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:1rem 0">
+        <h4>Details</h4>
+        <ul class="muted">
+          <li>Impedance: 32Ω</li>
+          <li>Frequency: 20Hz — 20kHz</li>
+          <li>Detachable cable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Repeat modal template for products 2..20: for brevity they are compact -- you can expand descriptions as needed -->
+
+  <div id="p2" class="modal"><div class="modal-inner"><div class="left"><img src="3sp.jpg" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Sleek Smart Watch</h2><p class="muted">AMOLED display, heart-rate, water resistant.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$199</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p3" class="modal"><div class="modal-inner"><div class="left"><img src="6s.jpg" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Retro Polaroid</h2><p class="muted">Instant prints • Classic vibes.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$89 <span class="old">$129</span></p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p4" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1526178618094-3a2d4d7f6fda?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Compact Drone X</h2><p class="muted">4K camera • 30 min flight time.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$349</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p5" class="modal"><div class="modal-inner"><div class="left"><img src="7s.jpg" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Heritage Leather Bag</h2><p class="muted">Full-grain leather • Lifetime patina.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$219</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p6" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1545235617-9465f6fb2a75?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Pro Gaming Controller</h2><p class="muted">Low-latency • Programmable triggers.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$59</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p7" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Minimal Desk Lamp</h2><p class="muted">Dimmable • USB powered.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$39</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p8" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Aero Running Shoes</h2><p class="muted">Breathable knit • Responsive foam.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$129</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p9" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1573495612937-36a0b5ee3dfc?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Barista Coffee Maker</h2><p class="muted">Pressure extraction • Milk frother.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$179</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p10" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Aviator Sunglasses</h2><p class="muted">Polarized lenses • UV protection.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$79</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p11" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Portable Wireless Speaker</h2><p class="muted">12 hour battery • IPX6 water resistant.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$69</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p12" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1526178618094-3a2d4d7f6fda?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Action Camera Mini</h2><p class="muted">Waterproof • 4K60 recording.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$139</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p13" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Classic Notebook</h2><p class="muted">Hardcover • 200 pages.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$15</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p14" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1474820556844-9c0b9f8ce1b6?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Phantom Gaming Laptop</h2><p class="muted">RTX 4070 • 16GB • 1TB SSD.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$1299 <span class="old">$1499</span></p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p15" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Eco Yoga Mat</h2><p class="muted">Natural rubber • Eco friendly.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$29</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p16" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1539880892403-13e28f3d1c66?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Modular Desk Organizer</h2><p class="muted">Customizable compartments for tidy workspace.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$49</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p17" class="modal"><div class="modal-inner"><div class="left"><img src="17s.jpg" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Ergo Designer Chair</h2><p class="muted">Lumbar support • Tilt lock.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$389</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p18" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Chef's Knife Set</h2><p class="muted">High-carbon stainless steel • 5 piece set.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$129</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p19" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>All‑Terrain Backpack</h2><p class="muted">28L • Weather resistant.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$89</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+  <div id="p20" class="modal"><div class="modal-inner"><div class="left"><img src="https://images.unsplash.com/photo-1517059224940-d4af9eec41e6?auto=format&fit=crop&w=1400&q=60" style="width:100%;height:100%;object-fit:cover"></div><div><a class="close" href="#">✕</a><h2>Smart Home Hub</h2><p class="muted">Voice assistant ready • Multi-protocol.</p><p style="font-size:1.4rem;font-weight:800;margin-top:.6rem">$99</p><div style="margin-top:1rem"><a class="btn primary" href="#">Add to cart</a></div></div></div></div>
+
+</body>
+</html>
